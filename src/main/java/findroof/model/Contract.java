@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import findroof.utilities.Contract_Status;
+
 @Entity
 public class Contract {
 
@@ -25,6 +27,9 @@ public class Contract {
 	@Column(name="contr_dateend")
 	private Date dateEnd;
 	
+	@Column(name="contr_status")
+	private Contract_Status status;
+	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pers_owner_id")
     private Person houseOwner;
@@ -37,13 +42,14 @@ public class Contract {
     @JoinColumn(name = "pers_poss_id")
     private Possession possession;
 
-	public Contract(Person houseOwner, Person houseHolder, Possession possession, Date dateStart, Date dateEnd) {
+	public Contract(Person houseOwner, Person houseHolder, Possession possession, Date dateStart, Date dateEnd, Contract_Status status) {
 		super();
 		this.houseOwner = houseOwner;
 		this.houseHolder = houseHolder;
 		this.possession = possession;
 		this.dateStart = dateStart;
 		this.dateEnd = dateEnd;
+		this.status = status;
 	}
 
 	public int getId() {
@@ -94,11 +100,18 @@ public class Contract {
 		this.possession = possession;
 	}
 
+	public Contract_Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Contract_Status status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
-		return "Contract [id=" + id + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd + ", houseOwner=" + houseOwner
-				+ ", houseHolder=" + houseHolder + ", possession=" + possession + "]";
+		return "Contract [id=" + id + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd + ", status=" + status
+				+ ", houseOwner=" + houseOwner + ", houseHolder=" + houseHolder + ", possession=" + possession + "]";
 	}
-	
 	
 }
