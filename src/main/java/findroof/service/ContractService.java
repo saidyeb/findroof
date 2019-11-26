@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import findroof.model.Contract;
 import findroof.model.Person;
 import findroof.repository.ContractRepository;
+import findroof.utilities.Contract_Status;
 import findroof.utilities.Person_Role;
 
 @Service
@@ -75,4 +76,48 @@ public class ContractService {
 			throw new Exception(msg, exception);
 		}
 	}
+	
+	public Contract addContract(Contract contract) throws Exception
+	{		
+		try 
+		{
+			if(contract != null)
+			{
+				return this.contractRepo.save(contract);
+			}
+			
+			return null;
+		}
+		catch(Exception exception)
+		{
+			String msg = "Erreur lors de sauvegarde dans la BD du nouveau contract avec pour paramètres'"+contract+"'";
+			_logger.error(msg, exception);
+			throw new Exception(msg, exception);
+		}
+	}
+
+	public Contract updateStatusContract(int contractId, Contract_Status status) throws Exception
+	{		
+		try 
+		{
+			Contract contract = null; 
+			
+			if(contractId > 0 && status != null)
+			{
+				contract = this.contractRepo.findById(contractId).get();
+				contract.setStatus(status);
+				contract = this.contractRepo.save(contract);
+			}
+			
+			return contract;
+		}
+		catch(Exception exception)
+		{
+			String msg = "Erreur lors de la mise à jour dans la BD du contract avec pour paramètres contractId:'"+contractId+"'";
+			_logger.error(msg, exception);
+			throw new Exception(msg, exception);
+		}
+	}
+	
+	
 }
