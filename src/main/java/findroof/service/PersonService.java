@@ -40,7 +40,20 @@ public class PersonService {
 			_logger.error(msg, exception);
 			throw new Exception(msg, exception);
 		}
-		
+	}
+	
+	public Person addPerson(Person person) throws Exception  
+	{ 
+		try
+		{
+			return personRepo.save(person); 
+		}
+		catch(Exception exception)
+		{
+			String msg = "Erreur lors du save de person dans la BD avec pour paramètre '"+person+"'";
+			_logger.error(msg, exception);
+			throw new Exception(msg, exception);
+		}
 	}
 	
 	public BoPossession getPersonPossessions(Person person) throws Exception
