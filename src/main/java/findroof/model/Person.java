@@ -1,10 +1,13 @@
 package findroof.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import findroof.utilities.Person_Role;
 
@@ -27,17 +30,23 @@ public class Person {
 
 	@Column(name="pers_role")
 	private Person_Role role;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_pers_id")
+	private Person person;
 
 	public Person() {
 		super();
 	}
 
-	public Person(String firstName, String lastName, int age, Person_Role role) {
+	
+	public Person(String firstName, String lastName, int age, Person_Role role, Person person) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
 		this.role = role;
+		this.person = person;
 	}
 
 	public int getId() {
@@ -80,10 +89,19 @@ public class Person {
 		this.role = role;
 	}
 
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Person [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", role="
-				+ role + "]";
+				+ role + ", person=" + person + "]";
 	}
 
 }
