@@ -186,5 +186,13 @@ public class User implements UserDetails {
 	public void setRoles(Collection<User_Role> roles) {
 		this.roles = roles;
 	}
+
+	@Override
+	public String toString() {
+		return "User [idUser=" + idUser + ", username=" + username + ", password=" + password + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", roles=" + roles + ", accountNonExpired=" + accountNonExpired
+				+ ", accountNonLocked=" + accountNonLocked + ", credentialsNonExpired=" + credentialsNonExpired
+				+ ", enabled=" + enabled + "]";
+	}
 	
 }

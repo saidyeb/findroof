@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import findroof.bo.BoPossession;
 import findroof.model.Contract;
 import findroof.model.Person;
+import findroof.model.User;
 import findroof.repository.PersonRepository;
 
 @Service
@@ -28,15 +29,15 @@ public class PersonService {
 	
 	public PersonService() {}
 	
-	public Person GetPersonById(int id) throws Exception  
+	public Person GetPersonByUser(User user) throws Exception  
 	{ 
 		try
 		{
-			return personRepo.findById(id).get(); 
+			return personRepo.findByUser(user); 
 		}
 		catch(Exception exception)
 		{
-			String msg = "Erreur lors de la récupération depuis la BD la person '"+id+"'";
+			String msg = "Erreur lors de la récupération depuis la BD la person '"+user+"'";
 			_logger.error(msg, exception);
 			throw new Exception(msg, exception);
 		}

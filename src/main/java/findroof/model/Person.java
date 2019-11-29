@@ -33,20 +33,20 @@ public class Person {
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_pers_id")
-	private Person person;
+	private User user;
 
 	public Person() {
 		super();
 	}
 
 	
-	public Person(String firstName, String lastName, int age, Person_Role role, Person person) {
+	public Person(String firstName, String lastName, int age, Person_Role role, User user) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
 		this.role = role;
-		this.person = person;
+		this.user = user;
 	}
 
 	public int getId() {
@@ -89,19 +89,19 @@ public class Person {
 		this.role = role;
 	}
 
-	public Person getPerson() {
-		return person;
+	public User getUser() {
+		return user;
 	}
 
-	public void setPerson(Person person) {
-		this.person = person;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 
 	@Override
 	public String toString() {
 		return "Person [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", role="
-				+ role + ", person=" + person + "]";
+				+ role + ", person=" + user + "]";
 	}
 
 }
