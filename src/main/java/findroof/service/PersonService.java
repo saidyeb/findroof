@@ -19,12 +19,6 @@ public class PersonService {
 	@Autowired
 	private PersonRepository personRepo;
 	
-	@Autowired
-	private PossessionService possessionService;
-
-	@Autowired
-	private ContractService contractService;
-	
 	private Logger _logger = LoggerFactory.getLogger(this.getClass());
 	
 	public PersonService() {}
@@ -55,29 +49,5 @@ public class PersonService {
 			_logger.error(msg, exception);
 			throw new Exception(msg, exception);
 		}
-	}
-	
-	public List<Contract> getPersonRequests(Person person) throws Exception
-	{
-		try 
-		{
-			return contractService.getPersonRequests(person);
-		} 
-		catch (Exception exception) 
-		{
-			throw exception;
-		}
-	}
-	
-	public List<Contract> getPersonContracts(Person person) throws Exception
-	{
-		try 
-		{
-			return contractService.getPersonContracts(person);
-		} 
-		catch (Exception exception) 
-		{
-			throw exception;
-		}	
 	}
 }

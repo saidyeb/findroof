@@ -1,16 +1,15 @@
 package findroof.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import findroof.bo.BoContract;
 import findroof.model.Contract;
 import findroof.model.Person;
 import findroof.repository.ContractRepository;
+import findroof.repository.PersonRepository;
 import findroof.utilities.Contract_Status;
 import findroof.utilities.Person_Role;
 
@@ -19,59 +18,42 @@ public class ContractService {
 
 	@Autowired
 	private ContractRepository contractRepo;
+	
+	@Autowired
+	private PersonRepository personRepo;
 
 	private Logger _logger = LoggerFactory.getLogger(this.getClass());
 	
 	public ContractService() {}
 	
 	
-	public List<Contract> getPersonRequests(Person person) throws Exception
+	public BoContract getPersonRequests(int personId) throws Exception
 	{		
 		try 
 		{
-			List<Contract> contracts = new ArrayList<Contract>();
+			BoContract boContract = new BoContract();
+			Person person = personRepo.findById(personId).get();
+			Iterable<Contract> allContracts = contractRepo.findAll();
 			
-			if(person.getRole() == Person_Role.Holder || person.getRole() == Person_Role.OwnerHolder)
+			for(Contract contract : allContracts)
 			{
-				Iterable<Contract> allContracts = contractRepo.findAll();
-				for(Contract contract : allContracts)
+				if(person.getRole() == Person_Role.Holder || person.getRole() == Person_Role.OwnerHolder)
 				{
 					if(contract.getHouseHolder().getId() == person.getId())
-						contracts.add(contract);
+						boContract.getSendRequests().add(contract);
+				}
+				else if(person.getRole() == Person_Role.Owner || person.getRole() == Person_Role.OwnerHolder)
+				{
+					if(contract.getHouseOwner().getId() == person.getId())
+						boContract.getReceiveRequests().add(contract);					
 				}
 			}
 			
-			return contracts;
+			return boContract;
 		}
 		catch(Exception exception)
 		{
-			String msg = "Erreur lors de la récupération depuis la BD la listes des contracts demandés avec pour paramètres '"+person+"'";
-			_logger.error(msg, exception);
-			throw new Exception(msg, exception);
-		}
-	}
-	
-	public List<Contract> getPersonContracts(Person person) throws Exception
-	{		
-		try 
-		{
-			List<Contract> contracts = new ArrayList<Contract>();
-			
-			if(person.getRole() == Person_Role.Owner || person.getRole() == Person_Role.OwnerHolder)
-			{
-				Iterable<Contract> allContracts = contractRepo.findAll();
-				for(Contract contract : allContracts)
-				{
-					if(contract.getHouseOwner().getId() == person.getId())
-						contracts.add(contract);
-				}			
-			}
-			
-			return contracts;
-		}
-		catch(Exception exception)
-		{
-			String msg = "Erreur lors de la récupération depuis la BD la listes des contracts signés avec pour paramètres '"+person+"'";
+			String msg = "Erreur lors de la récupération depuis la BD la listes des contracts demandés/signés avec pour paramètres '"+personId+"'";
 			_logger.error(msg, exception);
 			throw new Exception(msg, exception);
 		}
@@ -96,7 +78,7 @@ public class ContractService {
 		}
 	}
 
-	public Contract updateStatusContract(int contractId, Contract_Status status) throws Exception
+	public Contract updateContractStatus(int contractId, Contract_Status status) throws Exception
 	{		
 		try 
 		{
