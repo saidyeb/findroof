@@ -39,8 +39,8 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="role" class="control-label text-left">Role</label>
-                    <select name="role"  th:field="*{role}">
+                    <label for="role" class="control-label">Role</label>
+                    <select name="role"  th:field="*{role}" class="form-control">
    						<option th:value="Owner" >Proprietaire</option>
    						<option th:value="Holder" >Locataire</option>
    						<option th:value="OwnerHolder" >Proprietaire/Locataire</option>

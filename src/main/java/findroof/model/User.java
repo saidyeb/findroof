@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 
 import findroof.utilities.BCryptManagerUtil;
-import findroof.utilities.Person_Role;
 import findroof.utilities.User_Role;
 
 import java.util.Collection;
@@ -55,6 +54,7 @@ public class User implements UserDetails {
     @Column(name = "user_lastname")
     private String lastName;
     
+    @NotNull
     private String role;
 
     @ElementCollection(targetClass = User_Role.class, fetch = FetchType.EAGER)
@@ -66,7 +66,7 @@ public class User implements UserDetails {
     )
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Collection<Person_Role> roles;
+    private Collection<User_Role> roles;
 
     @Column(name = "user_account_non_expired")
     private boolean accountNonExpired;
@@ -85,10 +85,10 @@ public class User implements UserDetails {
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.enabled = true;
-        this.roles = Collections.singletonList(Person_Role.Default);
+        this.roles = Collections.singletonList(User_Role.Default);
     }
 
-    public User(String username, String password, String firstname, String lastname, Collection<Person_Role> roles) {
+    public User(String username, String password, String firstname, String lastname, Collection<User_Role> roles) {
         this.username = username;
         this.password = BCryptManagerUtil.passwordencoder().encode(password);
         this.firstName = firstname;
@@ -98,7 +98,6 @@ public class User implements UserDetails {
         this.credentialsNonExpired = true;
         this.enabled = true;
         this.roles = roles;
-        this.role = role ;
     }
 
     @Override
@@ -108,7 +107,7 @@ public class User implements UserDetails {
         return AuthorityUtils.commaSeparatedStringToAuthorityList(roles);
     }
 
-    private Collection<Person_Role> getRoles() {
+    private Collection<User_Role> getRoles() {
 		return this.roles;
 	}
 
@@ -130,14 +129,19 @@ public class User implements UserDetails {
 		return username;
 	}
 	
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
 	public String getRole() {
 		return role;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setRole(String role) {
+		this.role=role;
 	}
-
+	
 	public boolean isAccountNonExpired() {
 		return accountNonExpired;
 	}
@@ -190,7 +194,7 @@ public class User implements UserDetails {
 		this.lastName = lastName;
 	}
 
-	public void setRoles(Collection<Person_Role> roles) {
+	public void setRoles(Collection<User_Role> roles) {
 		this.roles = roles;
 	}
 

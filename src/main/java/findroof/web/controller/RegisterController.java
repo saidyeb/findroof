@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import findroof.model.User;
 import findroof.repository.UserRepository;
-import findroof.utilities.Person_Role;
 import findroof.utilities.User_Role;
 
 @Controller
@@ -35,19 +34,21 @@ public class RegisterController {
 	@RequestMapping(value="/register",method = RequestMethod.POST)
 	public String save(@ModelAttribute("user") @Valid User user, BindingResult result) {
 		
-		List<Person_Role> personRole= Collections.singletonList(Person_Role.Owner);
+		String role=user.getRole();
 		
-		if (user.getRole()=="Owner") {
-			personRole = Collections.singletonList(Person_Role.Owner);
+		if (role.equals("Owner")) {
+			List<User_Role> userRole = Collections.singletonList(User_Role.Owner);
+			user.setRoles(userRole);
 		}
-		else if (user.getRole()=="Holder") {
-			personRole = Collections.singletonList(Person_Role.Holder);
+		else if (role.equals("Holder")) {
+			List<User_Role> userRole = Collections.singletonList(User_Role.Holder);
+			user.setRoles(userRole);
 		}
-		else if (user.getRole()=="OwnerHolder") {
-			personRole = Collections.singletonList(Person_Role.OwnerHolder);
+		else if (role.equals("OwnerHolder")) {
+			List<User_Role> userRole = Collections.singletonList(User_Role.OwnerHolder);
+			user.setRoles(userRole);
 		}
 		
-		user.setRoles(personRole);
 		userRepository.save(user);
 		return "redirect:/register?success";
 	}
