@@ -1,5 +1,7 @@
 <html>
-<head th:replace="fragments/global-head::global-head"></head>
+<head th:replace="fragments/global-head::global-head">
+	<meta charset="utf-8">
+</head>
 
  <body>
         <header th:fragment="header">
@@ -9,8 +11,8 @@
    				</div>
             	<div class="collapse navbar-collapse nav navbar-nav" id="navbarNavAltMarkup">
                 <a class="nav-item nav-link" sec:authorize="isAuthenticated()" th:href="@{/posts}">Annonces</a>
-                <a class="nav-item nav-link" sec:authorize="isAuthenticated()" th:href="@{/contracts}">Mes contracts</a>
-                <a class="nav-item nav-link" sec:authorize="isAuthenticated()" th:href="@{/requests}">Mes demandes</a>
+                <a class="nav-item nav-link" sec:authorize="isAuthenticated()" th:href="@{/possessions}">Mes locations</a>
+                <a class="nav-item nav-link" sec:authorize="isAuthenticated()" th:href="@{/requests}">Gérer mes demandes</a>
                 </div>
                 
                 <div>
