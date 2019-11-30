@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import findroof.bo.BoPossession;
 import findroof.model.Contract;
 import findroof.model.Person;
 import findroof.model.Possession;
@@ -53,5 +54,21 @@ public class FindRoofApiController {
 			return null;
 		}	
 	}
+	
+	@RequestMapping(value="/getPersonPossessions", method = RequestMethod.GET)
+	@ResponseBody
+	public BoPossession getPersonPossessions(int personId) 
+	{
+		try 
+		{
+			return possessionService.getBoPossessionsByPerson(personId);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}	
+	}
+	
+	
 
 }

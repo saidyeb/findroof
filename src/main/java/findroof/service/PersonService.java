@@ -57,18 +57,6 @@ public class PersonService {
 		}
 	}
 	
-	public BoPossession getPersonPossessions(Person person) throws Exception
-	{
-		try 
-		{
-			return possessionService.getBoPossessionsByPerson(person);
-		} 
-		catch (Exception exception) 
-		{
-			throw exception;
-		}
-	}
-	
 	public List<Contract> getPersonRequests(Person person) throws Exception
 	{
 		try 

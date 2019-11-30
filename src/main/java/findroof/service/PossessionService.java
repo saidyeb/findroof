@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import findroof.bo.BoPossession;
 import findroof.model.Person;
 import findroof.model.Possession;
+import findroof.repository.PersonRepository;
 import findroof.repository.PossessionRepository;
 import findroof.utilities.Person_Role;
 
@@ -19,17 +20,23 @@ public class PossessionService {
 	@Autowired
 	private PossessionRepository possessionRepo;
 	
+	@Autowired 
+	private PersonRepository personRepo;
+	
 	private Logger _logger = LoggerFactory.getLogger(this.getClass());
 	
 	public PossessionService() {}
 	
-	public BoPossession getBoPossessionsByPerson(Person person) throws Exception
+	public BoPossession getBoPossessionsByPerson(int personId) throws Exception
 	{
 		try
 		{
 			BoPossession boPossession = new BoPossession();
 			
+			Person person = personRepo.findById(personId).get(); 
+			
 			Iterable<Possession> allPossession =  possessionRepo.findAll();
+			
 			for (Possession possession : allPossession)
 			{
 				if(person.getRole() == Person_Role.Holder || person.getRole() == Person_Role.OwnerHolder)
@@ -45,7 +52,7 @@ public class PossessionService {
 				else if (person.getRole() == Person_Role.Owner || person.getRole() == Person_Role.OwnerHolder)
 				{
 				    if (possession.getHouseOwner().getId() == person.getId())
-				    	 boPossession.getPossessionHolding().add(possession);
+				    	 boPossession.getPossessionOwning().add(possession);
 				}
 				
 			}
@@ -54,7 +61,7 @@ public class PossessionService {
 		}
 		catch(Exception exception)
 		{
-			String msg = "Erreur lors de la récupération depuis la BD la listes des biens loués avec pour paramètres '"+person+"'";
+			String msg = "Erreur lors de la récupération depuis la BD la listes des biens loués avec pour paramètres '"+personId+"'";
 			_logger.error(msg, exception);
 			throw new Exception(msg, exception);
 		}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/global-head::global-head">	
+	<meta charset="utf-8">
+	<title> Mes annonces </title>
+</head>
+
+<header th:replace="fragments/header::header"></header>
+
+<body>
+	<div class="containter">
+		<div class="row" th:if="${possessionOwning.isEmpty()}">
+			<h1>Vous n'avez pas encore publier des annonces</h1>
+		</div>
+		<div class="row" th:if="${possessionHolding.isEmpty()}">
+			<h1>Vous n'avez pas encore des réservations</h1>
+		</div>
+
+		<div class="row" th:if="${!possessionOwning.isEmpty()}">
+			<h1>Mes annonces</h1>
+			<div th:each="possession: ${possessionOwning}">
+			    <div th:text="${possession.id}" />
+			    <div th:text="${possession.name}" />
+			    <div th:text="${possession.address.city}" />
+			</div>
+		</div>
+		
+		<div class="row" th:if="${!possessionHolding.isEmpty()}">
+			<h1>Mes biens resérvés</h1>
+			<div th:each="possession: ${possessionHolding}">
+			    <div th:text="${possession.id}" />
+			    <div th:text="${possession.name}" />
+			    <div th:text="${possession.address.city}" />
+			</div>
+		</div>
+
+	</div>
+</body>
+
+<footer th:replace="fragments/footer::footer"></footer>
+
+</html>
