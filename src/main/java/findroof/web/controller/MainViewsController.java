@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import findroof.bo.BoContract;
 import findroof.bo.BoPossession;
 import findroof.controllers.FindRoofApiController;
 import findroof.model.Contract;
@@ -63,13 +64,25 @@ public class MainViewsController {
 	}
 	
 	@RequestMapping(value = "/possessions", method = RequestMethod.GET)
-    public ModelAndView viewRequests() {
+    public ModelAndView viewPossessions() {
 		
         ModelAndView modelAndView = new ModelAndView("possessions");
-        BoPossession boPossession = findRoofApiController.getPersonPossessions(this.currentPerson.getId());
         
+        BoPossession boPossession = findRoofApiController.getPersonPossessions(this.currentPerson.getId());
         modelAndView.addObject("possessionHolding", boPossession.getPossessionHolding());
         modelAndView.addObject("possessionOwning", boPossession.getPossessionOwning());
+        
+        return modelAndView;
+    }
+	
+	@RequestMapping(value = "/requests", method = RequestMethod.GET)
+    public ModelAndView viewRequests() {
+		
+        ModelAndView modelAndView = new ModelAndView("requests");
+        
+        BoContract boContract = findRoofApiController.getPersonRequests(this.currentPerson.getId());
+        modelAndView.addObject("receiveRequests", boContract.getReceiveRequests());
+        modelAndView.addObject("sendRequests", boContract.getSendRequests());
         
         return modelAndView;
     }

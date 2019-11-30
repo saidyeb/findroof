@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/global-head::global-head">	
+	<meta charset="utf-8">
+	<title> Gérer mes demandes </title>
+</head>
+
+<header th:replace="fragments/header::header"></header>
+
+<body>
+	<div class="containter">
+
+		<div class="row" th:if="${!receiveRequests.isEmpty()}">
+			<h1>Demandes reçues (en cours de traitement)</h1>
+			<div th:each="receiveRequest: ${receiveRequests}">
+			    <div th:text="${receiveRequest.id}" />
+			    hodler : <div th:text="${receiveRequest.houseHolder.firstName}" />
+			    owner : <div th:text="${receiveRequest.houseOwner.firstName}" />
+			    status : <div th:text="${receiveRequest.status}" />
+			</div>
+		</div>
+		
+		<div class="row" th:if="${!sendRequests.isEmpty()}">
+			<h1>Suivi de vos demandes</h1>
+			<div th:each="sendRequest: ${sendRequests}">
+			    <div th:text="${sendRequest.id}" />
+			</div>
+		</div>
+
+	</div>
+</body>
+
+<footer th:replace="fragments/footer::footer"></footer>
+
+</html>
