@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import findroof.model.User;
 import findroof.repository.UserRepository;
+import findroof.utilities.Person_Role;
 import findroof.utilities.User_Role;
 
 @Controller
@@ -34,8 +35,19 @@ public class RegisterController {
 	@RequestMapping(value="/register",method = RequestMethod.POST)
 	public String save(@ModelAttribute("user") @Valid User user, BindingResult result) {
 		
-		List<User_Role> userRole = Collections.singletonList(User_Role.USER);
-		user.setRoles(userRole);
+		List<Person_Role> personRole= Collections.singletonList(Person_Role.Owner);
+		
+		if (user.getRole()=="Owner") {
+			personRole = Collections.singletonList(Person_Role.Owner);
+		}
+		else if (user.getRole()=="Holder") {
+			personRole = Collections.singletonList(Person_Role.Holder);
+		}
+		else if (user.getRole()=="OwnerHolder") {
+			personRole = Collections.singletonList(Person_Role.OwnerHolder);
+		}
+		
+		user.setRoles(personRole);
 		userRepository.save(user);
 		return "redirect:/register?success";
 	}

@@ -19,24 +19,34 @@
             	</div>
 				
                 <div class="form-group" th:classappend="${#fields.hasErrors('firstName')}? 'has-error':''">
-                    <label for="firstname" class="control-label">Prenom</label>
+                    <label for="firstname" class="control-label text-left">Prenom</label>
                     <input id="firstname" class="form-control" th:field="*{firstName}"/>
                 </div>
                 <div class="form-group" th:classappend="${#fields.hasErrors('lastName')}? 'has-error':''">
-                    <label for="lastname" class="control-label">Nom</label>
+                    <label for="lastname" class="control-label text-left">Nom</label>
                     <input id="lastname"
                            class="form-control"
                            th:field="*{lastName}"/>
                 </div>
                 <div class="form-group" th:classappend="${#fields.hasErrors('username')}? 'has-error':''">
-                    <label for="username" class="control-label">Nom d'utilisateur</label>
+                    <label for="username" class="control-label text-left">Nom d'utilisateur</label>
                     <input id="username" class="form-control" th:field="*{username}"/>
                 </div>
                 <div class="form-group"
                      th:classappend="${#fields.hasErrors('password')}? 'has-error':''">
-                    <label for="password" class="control-label">Mot de passe</label>
+                    <label for="password" class="control-label text-left">Mot de passe</label>
                     <input id="password" class="form-control" type="password" th:field="*{password}"/>
                 </div>
+                
+                <div class="form-group">
+                    <label for="role" class="control-label text-left">Role</label>
+                    <select name="role"  th:field="*{role}">
+   						<option th:value="Owner" >Proprietaire</option>
+   						<option th:value="Holder" >Locataire</option>
+   						<option th:value="OwnerHolder" >Proprietaire/Locataire</option>
+					</select>
+                </div>
+                
                 <div class="form-group">
                     <button type="submit" class="btn btn-success">Register</button>  
                 </div>
