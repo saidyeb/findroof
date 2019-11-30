@@ -1,5 +1,7 @@
 package findroof.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,5 +110,18 @@ public class PossessionService {
 		}
 	}
 
-	
+	public List<Possession> getAllPosts() throws Exception
+	{
+		try
+		{
+			Iterable<Possession> possessions= possessionRepo.findAll();
+			return (List<Possession>) possessions; 
+		}
+		catch(Exception exception)
+		{
+			String msg = "Erreur lors de la récupération de la liste des biens.";
+			_logger.error(msg, exception);
+			throw new Exception(msg, exception);
+		}		
+	}
 }

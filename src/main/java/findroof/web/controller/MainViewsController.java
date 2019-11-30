@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,12 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 import findroof.controllers.FindRoofApiController;
 import findroof.model.Contract;
 import findroof.model.Person;
+import findroof.model.Possession;
 import findroof.model.User;
 import findroof.service.UserService;
 
 @Controller
-@RequestMapping(value = "/view")
-public class MainController {
+public class MainViewsController {
 	
 	@Autowired
 	private FindRoofApiController findRoofApiController; 
@@ -31,6 +32,7 @@ public class MainController {
 	
 	private Person currentPerson;
    	
+	@ModelAttribute
 	private void initCurrentPerson() {
 		
 		String username = "";
@@ -44,32 +46,21 @@ public class MainController {
 		}
 		
 		User user = userService.loadUserByUsername(username);
-		currentPerson = findRoofApiController.getPersonByUser(user);
+		this.currentPerson = findRoofApiController.getPersonByUser(user);
 	}	
 
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-    @ResponseBody
-	public String test() {
-        //return "test test test"  +initCurrentPerson();
-		return "";
+	@RequestMapping(value="/posts", method = RequestMethod.GET)
+	public ModelAndView viewPosts() {
+		
+		ModelAndView model = new ModelAndView("posts");
+		
+		List<Possession> possessions = findRoofApiController.getAllPosts();
+		
+		model.addObject("possessions", possessions);
+		
+		model.addObject("person", this.currentPerson);
+		
+		return model;
 	}
-
-	
-	@RequestMapping(value = "/request", method = RequestMethod.GET)
-    public ModelAndView viewRequests() 
-	{
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            return new ModelAndView("redirect:/");
-        }
-        
-        ModelAndView modelAndView = new ModelAndView("request");
-        List<Contract> requests = findRoofApiController.getPersonRequests();
-        
-        modelAndView.addObject("requests", requests);
-        
-        return modelAndView;
-    }
 	
 }

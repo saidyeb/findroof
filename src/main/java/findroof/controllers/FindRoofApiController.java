@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import findroof.model.Contract;
 import findroof.model.Person;
+import findroof.model.Possession;
 import findroof.model.User;
 import findroof.service.*;
 
@@ -19,9 +20,13 @@ public class FindRoofApiController {
 
 	@Autowired
 	private PersonService personService; 
+	
+	@Autowired
+	private PossessionService possessionService; 
 
 	@Autowired
 	private ContractService contractService; 
+	
 	
 	@RequestMapping(value="/getperson", method = RequestMethod.GET)
 	@ResponseBody
@@ -35,4 +40,18 @@ public class FindRoofApiController {
 			return null;
 		}	
 	}
+	
+	@RequestMapping(value="/getallposts", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Possession> getAllPosts() 
+	{
+		try {
+			return possessionService.getAllPosts();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}	
+	}
+
 }
