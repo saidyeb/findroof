@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import findroof.utilities.Possession_Type;
+
 @Entity
 public class Possession {
 
@@ -24,7 +26,7 @@ public class Possession {
 	private String name;
 	
 	@Column(name="poss_type")
-	private String type;	
+	private Possession_Type type;	
 	
 	@Column(name="poss_maxperson")
 	private int maxPerson;
@@ -36,7 +38,7 @@ public class Possession {
 	private int surface;
 	
 	@Column(name="poss_description")
-	private int description;
+	private String description;
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "addr_id")
@@ -50,7 +52,9 @@ public class Possession {
     @JoinColumn(name ="pers_holders_id")
     private Set<Person> houseHolders;
 
-	public Possession(String name, String type, int maxPerson, double price, int surface, int description,
+    public Possession() {}
+    
+	public Possession(String name, Possession_Type type, int maxPerson, double price, int surface, String description,
 			Address address, Person houseOwner, Set<Person> houseHolders) {
 		super();
 		this.name = name;
@@ -80,11 +84,11 @@ public class Possession {
 		this.name = name;
 	}
 
-	public String getType() {
+	public Possession_Type getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(Possession_Type type) {
 		this.type = type;
 	}
 
@@ -112,11 +116,11 @@ public class Possession {
 		this.surface = surface;
 	}
 
-	public int getDescription() {
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(int description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
@@ -150,6 +154,5 @@ public class Possession {
 				+ price + ", surface=" + surface + ", description=" + description + ", address=" + address
 				+ ", houseOwner=" + houseOwner + ", houseHolders=" + houseHolders + "]";
 	}
-    
-    
+   
 }

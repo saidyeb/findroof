@@ -42,6 +42,8 @@ public class Contract {
     @JoinColumn(name = "pers_poss_id")
     private Possession possession;
 
+	public Contract() {}
+	
 	public Contract(Person houseOwner, Person houseHolder, Possession possession, Date dateStart, Date dateEnd, Contract_Status status) {
 		super();
 		this.houseOwner = houseOwner;

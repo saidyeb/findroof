@@ -3,13 +3,14 @@ package findroof.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Address {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="addr_id")
 	private int id;
 	
@@ -23,9 +24,11 @@ public class Address {
 	private String country;
 	
 	@Column(name="addr_zipcode")
-	private String zipCode;
+	private int zipCode;
 	
-	public Address(String street, String city, String country, String zipCode) {
+	public Address() {}
+	
+	public Address(String street, String city, String country, int zipCode) {
 		super();
 		this.street = street;
 		this.city = city;
@@ -65,11 +68,11 @@ public class Address {
 		this.country = country;
 	}
 
-	public String getZipCode() {
+	public int getZipCode() {
 		return zipCode;
 	}
 
-	public void setZipCode(String zipCode) {
+	public void setZipCode(int zipCode) {
 		this.zipCode = zipCode;
 	}
 
