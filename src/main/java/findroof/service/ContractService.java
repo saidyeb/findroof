@@ -42,7 +42,8 @@ public class ContractService {
 					if(contract.getHouseHolder().getId() == person.getId())
 						boContract.getSendRequests().add(contract);
 				}
-				else if(person.getRole() == Role.Owner || person.getRole() == Role.OwnerHolder)
+				
+				if(person.getRole() == Role.Owner || person.getRole() == Role.OwnerHolder)
 				{
 					if(contract.getHouseOwner().getId() == person.getId())
 						boContract.getReceiveRequests().add(contract);					
