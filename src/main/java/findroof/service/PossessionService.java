@@ -31,30 +31,18 @@ public class PossessionService {
 	{
 		try
 		{
-			BoPossession boPossession = new BoPossession();
-			
+			BoPossession boPossession = new BoPossession();			
 			Person person = personRepo.findById(personId).get(); 
 			
-			Iterable<Possession> allPossession =  possessionRepo.findAll();
-			
-			for (Possession possession : allPossession)
+			if(person.getRole() == Role.Holder || person.getRole() == Role.OwnerHolder)
 			{
-				if(person.getRole() == Role.Holder || person.getRole() == Role.OwnerHolder)
-				{
-					Person possPers = possession.getHouseHolders().stream() 
-							.filter(p -> p.getId() == person.getId())
-							.findFirst()
-							.get();
-					
-					if (possPers != null)
-						boPossession.getPossessionHolding().add(possession);
-				}
-				else if (person.getRole() == Role.Owner || person.getRole() == Role.OwnerHolder)
-				{
-				    if (possession.getHouseOwner().getId() == person.getId())
-				    	 boPossession.getPossessionOwning().add(possession);
-				}
-				
+				List<Possession> possessionHolder = possessionRepo.findByHouseHolders(person);
+				boPossession.getPossessionHolding().addAll(possessionHolder);
+			}
+			if (person.getRole() == Role.Owner || person.getRole() == Role.OwnerHolder)
+			{
+				List<Possession> possessionOwners = possessionRepo.findByHouseOwner(person);
+			    boPossession.getPossessionOwning().addAll(possessionOwners);
 			}
 			
 			return boPossession;
