@@ -11,7 +11,7 @@ import findroof.model.Person;
 import findroof.repository.ContractRepository;
 import findroof.repository.PersonRepository;
 import findroof.utilities.Contract_Status;
-import findroof.utilities.Person_Role;
+import findroof.utilities.Role;
 
 @Service
 public class ContractService {
@@ -37,12 +37,12 @@ public class ContractService {
 			
 			for(Contract contract : allContracts)
 			{
-				if(person.getRole() == Person_Role.Holder || person.getRole() == Person_Role.OwnerHolder)
+				if(person.getRole() == Role.Holder || person.getRole() == Role.OwnerHolder)
 				{
 					if(contract.getHouseHolder().getId() == person.getId())
 						boContract.getSendRequests().add(contract);
 				}
-				else if(person.getRole() == Person_Role.Owner || person.getRole() == Person_Role.OwnerHolder)
+				else if(person.getRole() == Role.Owner || person.getRole() == Role.OwnerHolder)
 				{
 					if(contract.getHouseOwner().getId() == person.getId())
 						boContract.getReceiveRequests().add(contract);					

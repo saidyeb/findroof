@@ -1,7 +1,6 @@
 package findroof.utilities;
 
-public enum User_Role {
-	Default("Default"),
+public enum Role {
 	Owner("Propritaire"), 
 	Holder("Locataire"),
 	OwnerHolder("Propritaire/Locataire");
@@ -11,7 +10,7 @@ public enum User_Role {
     /**
      * @param text
      */
-	User_Role(final String text) {
+	Role(final String text) {
         this.text = text;
     }
 

@@ -1,16 +1,5 @@
 package findroof.model;
 
-import lombok.Data;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.StringUtils;
-
-import findroof.utilities.BCryptManagerUtil;
-import findroof.utilities.User_Role;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -28,6 +17,17 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
+
+import findroof.utilities.BCryptManagerUtil;
+import findroof.utilities.Role;
+import lombok.Data;
 
 @Entity
 @Data
@@ -57,7 +57,7 @@ public class User implements UserDetails {
     @NotNull
     private String role;
 
-    @ElementCollection(targetClass = User_Role.class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Cascade(value = CascadeType.REMOVE)
     @JoinTable(
             indexes = {@Index(name = "INDEX_USER_ROLE", columnList = "user_id")},
@@ -66,7 +66,7 @@ public class User implements UserDetails {
     )
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Collection<User_Role> roles;
+    private Collection<Role> roles;
 
     @Column(name = "user_account_non_expired")
     private boolean accountNonExpired;
@@ -85,10 +85,10 @@ public class User implements UserDetails {
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.enabled = true;
-        this.roles = Collections.singletonList(User_Role.Default);
+        this.roles = Collections.singletonList(Role.OwnerHolder);
     }
 
-    public User(String username, String password, String firstname, String lastname, Collection<User_Role> roles) {
+    public User(String username, String password, String firstname, String lastname, Collection<Role> roles) {
         this.username = username;
         this.password = BCryptManagerUtil.passwordencoder().encode(password);
         this.firstName = firstname;
@@ -107,7 +107,7 @@ public class User implements UserDetails {
         return AuthorityUtils.commaSeparatedStringToAuthorityList(roles);
     }
 
-    private Collection<User_Role> getRoles() {
+    private Collection<Role> getRoles() {
 		return this.roles;
 	}
 
@@ -194,7 +194,7 @@ public class User implements UserDetails {
 		this.lastName = lastName;
 	}
 
-	public void setRoles(Collection<User_Role> roles) {
+	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
 

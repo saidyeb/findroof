@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import findroof.utilities.Person_Role;
+import findroof.utilities.Role;
 
 @Entity
 public class Person {
@@ -29,7 +29,7 @@ public class Person {
 	private int age;
 
 	@Column(name="pers_role")
-	private Person_Role role;
+	private Role role;
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_pers_id")
@@ -40,7 +40,7 @@ public class Person {
 	}
 
 	
-	public Person(String firstName, String lastName, int age, Person_Role role, User user) {
+	public Person(String firstName, String lastName, int age, Role role, User user) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -81,11 +81,11 @@ public class Person {
 		this.age = age;
 	}
 
-	public Person_Role getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(Person_Role role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

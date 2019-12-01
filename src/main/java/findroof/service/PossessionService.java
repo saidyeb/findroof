@@ -12,7 +12,7 @@ import findroof.model.Person;
 import findroof.model.Possession;
 import findroof.repository.PersonRepository;
 import findroof.repository.PossessionRepository;
-import findroof.utilities.Person_Role;
+import findroof.utilities.Role;
 
 @Service
 public class PossessionService {
@@ -39,7 +39,7 @@ public class PossessionService {
 			
 			for (Possession possession : allPossession)
 			{
-				if(person.getRole() == Person_Role.Holder || person.getRole() == Person_Role.OwnerHolder)
+				if(person.getRole() == Role.Holder || person.getRole() == Role.OwnerHolder)
 				{
 					Person possPers = possession.getHouseHolders().stream() 
 							.filter(p -> p.getId() == person.getId())
@@ -49,7 +49,7 @@ public class PossessionService {
 					if (possPers != null)
 						boPossession.getPossessionHolding().add(possession);
 				}
-				else if (person.getRole() == Person_Role.Owner || person.getRole() == Person_Role.OwnerHolder)
+				else if (person.getRole() == Role.Owner || person.getRole() == Role.OwnerHolder)
 				{
 				    if (possession.getHouseOwner().getId() == person.getId())
 				    	 boPossession.getPossessionOwning().add(possession);
@@ -72,7 +72,7 @@ public class PossessionService {
 	{
 		try
 		{
-			if(person != null && (person.getRole() == Person_Role.Owner || person.getRole() == Person_Role.OwnerHolder))
+			if(person != null && (person.getRole() == Role.Owner || person.getRole() == Role.OwnerHolder))
 			{
 				possession.setHouseOwner(person);
 				return possessionRepo.save(possession);
