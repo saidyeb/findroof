@@ -5,20 +5,53 @@
 	<title> Gérer mes demandes </title>
 </head>
 
-<header th:replace="fragments/header::header"></header>
 
 <body>
-	<div class="containter">
 
-		<div class="row" th:if="${!receiveRequests.isEmpty()}">
-			<h1>Demandes reçues (en cours de traitement)</h1>
-			<div th:each="receiveRequest: ${receiveRequests}">
-			    <div th:text="${receiveRequest.id}" />
-			    hodler : <div th:text="${receiveRequest.houseHolder.firstName}" />
-			    owner : <div th:text="${receiveRequest.houseOwner.firstName}" />
-			    status : <div th:text="${receiveRequest.status}" />
+<header th:replace="fragments/header::header"></header>
+
+<div class="container mt-5 pt-5">
+
+	<!-- block pour les demandes reçus : seulement s'il est Propritaire ou les deux -->
+	<div class="row" th:if="${#strings.equalsIgnoreCase(person.role.name(),'OwnerHolder') or #strings.equalsIgnoreCase(person.role.name(),'Owner')}">
+		<div class="col-12" th:if="${!receiveRequests.isEmpty()}">
+			<h4 class="border-bottom border-dark pb-2">Demandes reçues</h4>
+			<div class="row"> 
+				<div class="col" th:each="receiveRequest: ${receiveRequests}">  
+					<div class="card" th:id="'card-'+${receiveRequest.id}" style="width: 25rem;">
+					  <div class="card-body">
+					    <h5 class="card-title" th:text="${receiveRequest.possession.name}"></h5>
+					    <h6 class="card-subtitle mb-3 text-muted" th:text="'De ' + ${receiveRequest.dateStart} + ' à ' + ${receiveRequest.dateEnd}"></h6>
+					    <div class="card-text">
+							<p class="mb-0">
+								<b>Demandé par : </b>
+								<label class="mb-0" th:text="${receiveRequest.houseHolder.firstName} + ${receiveRequest.houseHolder.lastName}"></label>
+							</p>
+							<p class="mb-0">
+								<b>Envoyer le : </b>
+								<label class="mb-0" th:text="${receiveRequest.dateStart}"></label>
+							</p>
+							<p class="mb-0">
+								<b>Nombre de locataire actuel : </b>
+								<label class="mb-0" th:text="${receiveRequest.possession.houseHolders.size()}"></label>
+							</p>
+							<p class="mb-0">
+								<b>Nombre max locataire : </b>
+								<label class="mb-0" th:text="${receiveRequest.possession.maxPerson}"></label>
+							</p>
+							<p class="mb-0">
+								<b>Statut : </b>
+								<label class="mb-0" th:id="'label-request-'+${receiveRequest.id}+'-status'" th:text="${receiveRequest.status}"></label>
+							</p>
+					    </div>
+					    
+					  </div>
+					</div>
+	
+				</div>
 			</div>
-		</div>
+		</div>			
+	</div>
 		
 		<div class="row" th:if="${!sendRequests.isEmpty()}">
 			<h1>Suivi de vos demandes</h1>
@@ -28,8 +61,11 @@
 		</div>
 
 	</div>
+	
+<footer th:replace="fragments/footer::footer"></footer>
+
 </body>
 
-<footer th:replace="fragments/footer::footer"></footer>
+
 
 </html>
