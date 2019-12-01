@@ -3,6 +3,10 @@
 	margin-top: 12em !important;
 }
 
+.bg-white {
+	background-color: white !important;
+}
+
 .form-register {
   width: 100%;
   max-width: 330px;
