@@ -79,20 +79,25 @@ public class ContractService {
 		}
 	}
 
-	public Contract updateContractStatus(int contractId, Contract_Status status) throws Exception
+	public Boolean updateContractStatus(int contractId, String status) throws Exception
 	{		
 		try 
 		{
-			Contract contract = null; 
-			
 			if(contractId > 0 && status != null)
 			{
-				contract = this.contractRepo.findById(contractId).get();
-				contract.setStatus(status);
-				contract = this.contractRepo.save(contract);
+				Contract contract = this.contractRepo.findById(contractId).get();
+				
+				if(status.equalsIgnoreCase("Valid"))
+					contract.setStatus(Contract_Status.Valid);
+				else if(status.equalsIgnoreCase("Refuse"))
+					contract.setStatus(Contract_Status.Refuse);	
+					
+				this.contractRepo.save(contract);
+				
+				return true;
 			}
 			
-			return contract;
+			return false;
 		}
 		catch(Exception exception)
 		{

@@ -84,6 +84,20 @@ public class FindRoofApiController {
 		}	
 	}
 	
+	@RequestMapping(value="/contractUpdateStatus", method = RequestMethod.GET)
+	@ResponseBody
+	public Boolean contractUpdateStatus(int contractId, String status) 
+	{
+		try 
+		{
+			return contractService.updateContractStatus(contractId, status);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}	
+	}
+	
 	
 
 }
