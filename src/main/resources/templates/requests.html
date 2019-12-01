@@ -44,6 +44,11 @@
 								<label class="mb-0" th:id="'label-request-'+${receiveRequest.id}+'-status'" th:text="${receiveRequest.status}"></label>
 							</p>
 					    </div>
+		
+					    <div class="mt-3 text-center" th:if="${#strings.equalsIgnoreCase(receiveRequest.status.name(),'InProgress')}">						    
+						    <button type="submit" class="btn btn-outline-primary mr-2" th:id="'btn-request-'+${receiveRequest.id}+'-acc'" th:data-id="${receiveRequest.id}" data-status="Valid" >Accepter</button>
+						    <button type="submit" class="btn btn-outline-danger ml-5" th:id="'btn-request-'+${receiveRequest.id}+'-ref'" th:data-id="${receiveRequest.id}" data-status="Refuse">Refuser</button>
+					    </div>
 					    
 					  </div>
 					</div>
