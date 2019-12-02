@@ -8,20 +8,51 @@
 <header th:replace="fragments/header::header"></header>
 
 <body>
-	<div class="containter">
+	<div class="container mt-5 pt-5 mb-5 pb-5">
 		<div class="row" th:if="${possessionOwning.isEmpty()}">
-			<h1>Vous n'avez pas encore publier des annonces</h1>
+			<h4>Vous n'avez pas encore publier des annonces</h4>
 		</div>
 		<div class="row" th:if="${possessionHolding.isEmpty()}">
-			<h1>Vous n'avez pas encore des réservations</h1>
+			<h4>Vous n'avez pas encore des réservations</h4>
 		</div>
 
 		<div class="row" th:if="${!possessionOwning.isEmpty()}">
-			<h1>Mes annonces</h1>
-			<div th:each="possession: ${possessionOwning}">
-			    <div th:text="${possession.id}" />
-			    <div th:text="${possession.name}" />
-			    <div th:text="${possession.address.city}" />
+			<div class="col-12">
+				<h4 class="row border-bottom border-dark pb-2">Mes biens publiés</h4>
+				<div class="row">
+					<div class="col-4 mt-1 mb-1" th:each="possession: ${possessionOwning}">
+						<div class="card">
+						  <div class="card-body">
+						    <h5 class="card-title" th:text="${possession.name}"></h5>
+						    <h6 class="card-subtitle mb-3 text-muted" th:text="${possession.type}"></h6>
+						    <div class="card-text">
+								<p class="mb-0">
+									<b>Description : </b>
+									<label class="mb-0 text-muted" th:text="${possession.description}"></label>
+								</p>
+								<p class="mb-0">
+									<b>Adresse : </b>
+									<label class="mb-0" th:text="${possession.address.toFrString()}"></label>
+								</p>
+								<p class="mb-0">
+									<b>Surface : </b>
+									<label class="mb-0" th:text="${possession.surface} + 'm²'"></label>
+								</p>
+								<p class="mb-0">
+									<b>Nombre max locataire : </b>
+									<label class="mb-0" th:text="${possession.maxPerson}"></label>
+								</p>
+								<p class="mb-0">
+									<b>Les locataires : </b>
+									<div th:each="holder: ${possession.houseHolders}">
+										<label class="mb-0" th:text="' - '+${holder.firstName} + ${holder.lastName}"></label>
+									</div>
+								</p>
+						    </div>
+						  </div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		

@@ -81,5 +81,9 @@ public class Address {
 		return "Address [id=" + id + ", street=" + street + ", city=" + city + ", country=" + country + ", zipCode="
 				+ zipCode + "]";
 	}
+	
+	public String toFrString() {
+		return street + ", " + city + ", " + country + ", " + zipCode;		
+	}
 		
 }
