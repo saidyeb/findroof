@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import findroof.bo.BoPossession;
+import findroof.bo.BoPossessionFilter;
 import findroof.model.Contract;
 import findroof.model.Person;
 import findroof.model.Possession;
@@ -135,6 +136,47 @@ public class PossessionService {
 		catch(Exception exception)
 		{
 			String msg = "Erreur lors de la récupération de la liste des biens.";
+			_logger.error(msg, exception);
+			throw new Exception(msg, exception);
+		}		
+	}
+	
+	public List<Possession> getAllPostByFilterPerson(BoPossessionFilter boFilter, Person person) throws Exception
+	{
+		try
+		{
+			List<Possession> allPossessions= (List<Possession>) possessionRepo.findAll();
+			List<Contract> holderContracts = contractRepo.findByHouseHolder(person);
+			Iterable<Contract> ownerContracts = contractRepo.findByHouseHolder(person);
+			
+			allPossessions.removeIf(possession -> possession.getHouseHolders().contains(person));
+			
+			
+			allPossessions.removeIf(possession -> 
+				
+			       !(possession.getAddress().getCity() == boFilter.getAddress().getCity())  
+				&& !(possession.getAddress().getStreet() == boFilter.getAddress().getStreet())
+				&& !(possession.getAddress().getZipCode() == boFilter.getAddress().getZipCode())
+				&& !(possession.getAddress().getCountry() == boFilter.getAddress().getCountry())
+				
+				&& !(possession.getSurface() >= boFilter.getMinSurface() && possession.getSurface() <= boFilter.getMaxSurface()) 
+				
+				&& !(possession.getMaxPerson() <= boFilter.getMaxPerson())
+			
+				&& !(possession.getHouseHolders().size() <= boFilter.getFreePlaces())
+			);
+			
+			for(Contract holderContract : holderContracts) 
+				allPossessions.removeIf(possession -> possession.getId() == holderContract.getPossession().getId());
+			
+			for(Contract ownerContract : ownerContracts)
+				allPossessions.removeIf(possession -> possession.getId() == ownerContract.getPossession().getId());
+		
+			return allPossessions; 
+		}
+		catch(Exception exception)
+		{
+			String msg = "Erreur lors de la récupération de la liste des biens. avec les filtes"+boFilter;
 			_logger.error(msg, exception);
 			throw new Exception(msg, exception);
 		}		

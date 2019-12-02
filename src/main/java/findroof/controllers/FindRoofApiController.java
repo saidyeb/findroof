@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import findroof.bo.BoContract;
 import findroof.bo.BoPossession;
+import findroof.bo.BoPossessionFilter;
 import findroof.model.Contract;
 import findroof.model.Person;
 import findroof.model.Possession;
@@ -112,5 +113,22 @@ public class FindRoofApiController {
 			return null;
 		}	
 	}
+	
+	@RequestMapping(value="/applyPossessionFilter", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Possession> applyPossessionFilter(BoPossessionFilter boFilter, Person person) 
+	{
+		try 
+		{
+			return possessionService.getAllPostByFilterPerson(boFilter,person);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}	
+	}
+	
+	
+	
 	
 }
