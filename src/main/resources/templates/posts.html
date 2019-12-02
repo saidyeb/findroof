@@ -11,6 +11,79 @@
 <div class="container mt-5 pt-5 mb-5 pb-5">
 	<div class="row">
 		<div class="col-12">
+		 
+		    <!-- liste des filtres -->
+		    <div class="row border mb-2 pt-3 pb-3 pl-1 pr-1">
+		    	<form th:action="@{/postsFiltered}" th:object="${boPossessionFilter}" method="post" class="col-12 ">
+					<div class="row">
+						<div class="col-3">
+							<div class="input-group input-group-sm mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="inputGroup-sizing-sm">Adresse</span>
+							  </div>
+							  <input th:field="*{address.street}" type="text" class="form-control" id="input-filter-adr" name="address" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>
+						<div class="col-3">
+							<div class="input-group input-group-sm mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="inputGroup-sizing-sm">Ville</span>
+							  </div>
+							  <input th:field="*{address.city}" type="text" class="form-control" id="input-filter-adr" name="address" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>	
+						<div class="col-3">
+							<div class="input-group input-group-sm mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" min="1" id="inputGroup-sizing-sm">Code Postal</span>
+							  </div>
+							  <input th:field="*{address.zipCode}" type="number" class="form-control" id="input-filter-adr" name="address" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>	
+						<div class="col-3">
+							<div class="input-group input-group-sm mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="inputGroup-sizing-sm">Pays</span>
+							  </div>
+							  <input th:field="*{address.country}" type="text" class="form-control" id="input-filter-adr" name="address" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>																		
+						<div class="col-3">
+							<div class="input-group input-group-sm mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="inputGroup-sizing-sm">Surface (min,max)</span>
+							  </div>
+							  <input th:field="*{minSurface}" min="1" type="number" class="form-control" id="input-filter-surface-min" name="surfaceMin" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							  <input th:field="*{maxSurface}" min="1" class="form-control" id="input-filter-surface-max" name="surfaceMax" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>
+						<div class="col-3">
+							<div class="input-group input-group-sm mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="inputGroup-sizing-sm">Max locataire</span>
+							  </div>
+							  <input th:field="*{maxPerson}" min="1" type="number" class="form-control" id="input-filter-locataire-max" name="maxPerson" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>
+						<div class="col-3">
+							<div class="input-group input-group-sm mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="inputGroup-sizing-sm">Nbr. place libre</span>
+							  </div>
+							  <input th:field="*{freePlaces}" min="1" type="number" class="form-control" id="input-filter-place" name="freePlaces" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>								
+					</div>
+		    		
+		    		<div class="row">	
+		    			<div class="col mt-3 text-center">
+		    				<button type="submit" class="btn btn-outline-primary mr-2" id="btn-filter-apply">Appliquer les filtres</button>
+		    			</div>	    
+		    		</div>
+		    	</form>
+		    </div>		
+
+			<!-- liste des annonces -->
 			<h4 class="row border-bottom border-dark pb-2">Annonces</h4>
 			<div class="row">
 				<div class="col-4 mt-1 mb-1" th:each="possession: ${possessions}">

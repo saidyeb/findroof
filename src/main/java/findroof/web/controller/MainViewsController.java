@@ -1,32 +1,29 @@
 package findroof.web.controller;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import findroof.bo.BoContract;
 import findroof.bo.BoPossession;
+import findroof.bo.BoPossessionFilter;
 import findroof.controllers.FindRoofApiController;
-import findroof.model.Contract;
 import findroof.model.Person;
 import findroof.model.Possession;
 import findroof.model.User;
 import findroof.service.UserService;
-import findroof.utilities.Role;
 
 @Controller
 public class MainViewsController {
@@ -65,6 +62,7 @@ public class MainViewsController {
 		
 		modelAndView.addObject("possessions", possessions);
 		modelAndView.addObject("person", this.currentPerson);
+		modelAndView.addObject("boPossessionFilter", new BoPossessionFilter()); 
 		
 		return modelAndView;
 	}
@@ -93,5 +91,19 @@ public class MainViewsController {
         
         return modelAndView;
     }
+	
+	@RequestMapping(value="/postsFiltered", method = RequestMethod.POST)
+	public ModelAndView viewFilteredPosts(@Valid BoPossessionFilter boFilter, BindingResult result) {
+		
+		ModelAndView modelAndView = new ModelAndView("posts");
+		
+		List<Possession> possessions = findRoofApiController.applyPossessionFilter(boFilter, this.currentPerson);
+		
+		modelAndView.addObject("possessions", possessions);
+		modelAndView.addObject("person", this.currentPerson);
+		modelAndView.addObject("boPossessionFilter", new BoPossessionFilter()); 
+		
+		return modelAndView;
+	}
 	
 }
