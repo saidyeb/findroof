@@ -45,10 +45,10 @@ public class FindRoofApiController {
 	
 	@RequestMapping(value="/getallposts", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Possession> getAllPosts() 
+	public List<Possession> getAllPosts(Person person) 
 	{
 		try {
-			return possessionService.getAllPosts();
+			return possessionService.getAllPosts(person);
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -99,5 +99,18 @@ public class FindRoofApiController {
 	}
 	
 	
-
+	@RequestMapping(value="/createRequest", method = RequestMethod.GET)
+	@ResponseBody
+	public Contract createRequest(int possessionId, int holderId) 
+	{
+		try 
+		{
+			return contractService.addContract(possessionId, holderId);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}	
+	}
+	
 }

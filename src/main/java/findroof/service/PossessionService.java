@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import findroof.bo.BoPossession;
+import findroof.model.Contract;
 import findroof.model.Person;
 import findroof.model.Possession;
+import findroof.repository.ContractRepository;
 import findroof.repository.PersonRepository;
 import findroof.repository.PossessionRepository;
 import findroof.utilities.Role;
@@ -19,6 +21,9 @@ public class PossessionService {
 
 	@Autowired
 	private PossessionRepository possessionRepo;
+	
+	@Autowired
+	private ContractRepository contractRepo;
 	
 	@Autowired 
 	private PersonRepository personRepo;
@@ -105,12 +110,27 @@ public class PossessionService {
 		}
 	}
 
-	public List<Possession> getAllPosts() throws Exception
+	public List<Possession> getAllPosts(Person person) throws Exception
 	{
 		try
 		{
-			Iterable<Possession> possessions= possessionRepo.findAll();
-			return (List<Possession>) possessions; 
+			List<Possession> allPossessions= (List<Possession>) possessionRepo.findAll();
+			List<Contract> holderContracts = contractRepo.findByHouseHolder(person);
+			Iterable<Contract> ownerContracts = contractRepo.findByHouseHolder(person);
+			
+			allPossessions.removeIf(possession -> possession.getHouseHolders().contains(person));
+			
+			for(Contract holderContract : holderContracts)
+			{
+				allPossessions.removeIf(possession -> possession.getId() == holderContract.getPossession().getId());
+			}
+			
+			for(Contract ownerContract : ownerContracts)
+			{
+				allPossessions.removeIf(possession -> possession.getId() == ownerContract.getPossession().getId());
+			}
+		
+			return allPossessions; 
 		}
 		catch(Exception exception)
 		{

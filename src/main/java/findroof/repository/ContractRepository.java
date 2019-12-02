@@ -10,4 +10,6 @@ import findroof.model.Person;
 
 @Repository
 public interface ContractRepository extends CrudRepository<Contract, Integer> {
+	List<Contract> findByHouseHolder(Person person);
+	List<Contract> findByHouseOwner(Person person);
 }
