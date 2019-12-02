@@ -59,12 +59,12 @@
 	</div>
 		
 	<!-- block pour les demandes envoyées : seulement s'il est locataire ou les deux -->
-	<div class="row" th:if="${#strings.equalsIgnoreCase(person.role.name(),'OwnerHolder') or #strings.equalsIgnoreCase(person.role.name(),'Holder')}">
+	<div class="row mt-5 mb-5 pb-5" th:if="${#strings.equalsIgnoreCase(person.role.name(),'OwnerHolder') or #strings.equalsIgnoreCase(person.role.name(),'Holder')}">
 		<div class="col-12" th:if="${!sendRequests.isEmpty()}">
-			<h4 class="border-bottom border-dark pb-2">Suivi de vos demandes</h4>
+			<h4 class="border-bottom border-dark pb-2">Suivi de mes demandes</h4>
 			<div class="row"> 
 				
-				<div class="col" th:each="sendRequest: ${sendRequests}">  
+				<div class="col mt-1 mb-1" th:each="sendRequest: ${sendRequests}">  
 					<div class="card" style="width: 25rem;">
 					  <div class="card-body">
 					    <h5 class="card-title" th:text="${sendRequest.possession.name}"></h5>
@@ -72,19 +72,19 @@
 					    <div class="card-text">
 							<p class="mb-0">
 								<b>Proposé par : </b>
-								<label class="mb-0" th:text="${sendRequest.houseOwner.firstName} + ${sendRequest.houseOwner.lastName}"></label>
+								<label class="mb-0" th:text="${sendRequest.houseOwner.firstName} +' '+ ${sendRequest.houseOwner.lastName}"></label>
 							</p>
 							<p class="mb-0">
 								<b>Envoyer le : </b>
-								<label class="mb-0" th:text="${receiveRequest.dateStart}"></label>
+								<label class="mb-0" th:text="${sendRequest.dateStart}"></label>
 							</p>
 							<p class="mb-0">
 								<b>Nombre max locataire : </b>
-								<label class="mb-0" th:text="${receiveRequest.possession.maxPerson}"></label>
+								<label class="mb-0" th:text="${sendRequest.possession.maxPerson}"></label>
 							</p>
 							<p class="mb-0">
 								<b>Statut : </b>
-								<label class="mb-0" th:text="${receiveRequest.status}"></label>
+								<label class="mb-0" th:text="${sendRequest.status}"></label>
 							</p>
 					    </div>
 					  </div>
