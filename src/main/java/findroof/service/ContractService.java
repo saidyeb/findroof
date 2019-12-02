@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import findroof.bo.BoContract;
 import findroof.model.Contract;
 import findroof.model.Person;
+import findroof.model.Possession;
 import findroof.repository.ContractRepository;
 import findroof.repository.PersonRepository;
+import findroof.repository.PossessionRepository;
 import findroof.utilities.Contract_Status;
 import findroof.utilities.Role;
 
@@ -21,6 +23,9 @@ public class ContractService {
 	
 	@Autowired
 	private PersonRepository personRepo;
+	
+	@Autowired
+	private PossessionRepository possessionRepo;
 
 	private Logger _logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -86,13 +91,17 @@ public class ContractService {
 			if(contractId > 0 && status != null)
 			{
 				Contract contract = this.contractRepo.findById(contractId).get();
+				Possession possession = this.possessionRepo.findById(contract.getPossession().getId()).get();
 				
-				if(status.equalsIgnoreCase("Valid"))
+				if(status.equalsIgnoreCase("Valid")) {
 					contract.setStatus(Contract_Status.Valid);
+					possession.getHouseHolders().add(contract.getHouseHolder());
+				}
 				else if(status.equalsIgnoreCase("Refuse"))
 					contract.setStatus(Contract_Status.Refuse);	
 					
 				this.contractRepo.save(contract);
+				this.possessionRepo.save(possession);
 				
 				return true;
 			}

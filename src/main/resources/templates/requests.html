@@ -10,15 +10,15 @@
 
 <header th:replace="fragments/header::header"></header>
 
-<div class="container mt-5 pt-5">
+<div class="container mt-5 pt-5 mb-5 pb-5">
 
 	<!-- block pour les demandes reçus : seulement s'il est Propritaire ou les deux -->
 	<div class="row" th:if="${#strings.equalsIgnoreCase(person.role.name(),'OwnerHolder') or #strings.equalsIgnoreCase(person.role.name(),'Owner')}">
 		<div class="col-12" th:if="${!receiveRequests.isEmpty()}">
 			<h4 class="border-bottom border-dark pb-2">Demandes reçues</h4>
 			<div class="row"> 
-				<div class="col" th:each="receiveRequest: ${receiveRequests}">  
-					<div class="card" th:id="'card-'+${receiveRequest.id}" style="width: 25rem;">
+				<div class="col-4 mt-1 mb-1" th:each="receiveRequest: ${receiveRequests}">  
+					<div class="card" th:id="'card-'+${receiveRequest.id}">
 					  <div class="card-body">
 					    <h5 class="card-title" th:text="${receiveRequest.possession.name}"></h5>
 					    <h6 class="card-subtitle mb-3 text-muted" th:text="'De ' + ${receiveRequest.dateStart} + ' à ' + ${receiveRequest.dateEnd}"></h6>
@@ -63,6 +63,7 @@
 		<div class="col-12" th:if="${!sendRequests.isEmpty()}">
 			<h4 class="border-bottom border-dark pb-2">Suivi de vos demandes</h4>
 			<div class="row"> 
+				
 				<div class="col" th:each="sendRequest: ${sendRequests}">  
 					<div class="card" style="width: 25rem;">
 					  <div class="card-body">
@@ -87,9 +88,9 @@
 							</p>
 					    </div>
 					  </div>
-					</div>
-	
+					</div>	
 				</div>
+				
 			</div>
 		</div>			
 	</div>
