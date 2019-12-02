@@ -1,5 +1,7 @@
 package findroof.service;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,12 +67,24 @@ public class ContractService {
 		}
 	}
 	
-	public Contract addContract(Contract contract) throws Exception
+	public Contract addContract(int possessionId, int holderId) throws Exception
 	{		
 		try 
 		{
-			if(contract != null)
+			if(possessionId > 0 && holderId > 0)
 			{
+				Possession possession = possessionRepo.findById(possessionId).get();
+				Person person = personRepo.findById(holderId).get();
+
+				//TO DO: make date start and date end dynamic
+				Contract contract = new Contract(); 
+				contract.setDateStart(new Date());
+				contract.setDateEnd(new Date());
+				contract.setHouseHolder(person);
+				contract.setHouseOwner(possession.getHouseOwner());
+				contract.setPossession(possession);
+				contract.setStatus(Contract_Status.InProgress);
+				
 				return this.contractRepo.save(contract);
 			}
 			
@@ -78,7 +92,7 @@ public class ContractService {
 		}
 		catch(Exception exception)
 		{
-			String msg = "Erreur lors de sauvegarde dans la BD du nouveau contract avec pour paramètres'"+contract+"'";
+			String msg = "Erreur lors de sauvegarde dans la BD du nouveau contract avec pour paramètres possessionId:'"+possessionId+"' personId:='"+holderId+"'";
 			_logger.error(msg, exception);
 			throw new Exception(msg, exception);
 		}

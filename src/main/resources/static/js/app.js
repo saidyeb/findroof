@@ -28,9 +28,37 @@ var FindRoof = (function (){
 		});
 	}
 	
+	function initSendRequest()
+	{
+		$(document).on("click", "[id^='btn-possession-']", function(e){
+			
+			var params = {
+				possessionId : $(this).data("id"),
+				holderId : $(this).data("holder")	
+			}; 
+			
+			var $this = $(this);
+			
+			$.get(baseApiUrl + "createRequest?", params)
+				.done(function (data){
+					if(data == null)
+						alert("Impossible d'effectuer la réservation.");
+					else {
+						$("#card-"+params.possessionId).css("backgroundColor","#96d696");
+						$this.parent().html("");
+						alert("Votre demande a était bien envoyée. Vous allez revecoir un retour dés que le propriétaire valide votre demande.");
+					}
+				})
+				.fail(function (err){
+					alert("Impossible d'effectuer la réservation.");
+				});
+		});
+	}
+	
 	return {
 		init : function(){
 			initUpdateRequestStatus();
+			initSendRequest();
 		}
 	};
 	
