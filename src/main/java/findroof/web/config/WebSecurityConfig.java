@@ -40,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/posts**").authenticated()
                 .antMatchers("/possessions**").authenticated()
                 .antMatchers("/requests**").authenticated()
+                .antMatchers("/addpossessions**").authenticated()
                 .anyRequest().permitAll()
             .and()
             .formLogin().loginPage("/login").defaultSuccessUrl("/posts").failureUrl("/login")

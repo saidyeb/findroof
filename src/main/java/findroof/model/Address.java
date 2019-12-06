@@ -44,6 +44,14 @@ public class Address {
 		this.id = id;
 	}
 
+	public int getNumber() {
+		return id;
+	}
+
+	public void setNumber(int id) {
+		this.id = id;
+	}
+	
 	public String getStreet() {
 		return street;
 	}

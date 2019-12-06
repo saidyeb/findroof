@@ -15,6 +15,11 @@
 		<div class="row" th:if="${possessionHolding.isEmpty()}">
 			<h4>Vous n'avez pas encore des réservations</h4>
 		</div>
+		<div class="row">
+			<form th:action="@{/addpossessions}">
+            	<input class="btn btn-primary navbar-btn" type="submit" value="Ajouter un bien">
+        	</form>
+		</div>
 
 		<!-- liste des biens  pour un poroprio-->
 		<div class="row" th:if="${!possessionOwning.isEmpty()}">

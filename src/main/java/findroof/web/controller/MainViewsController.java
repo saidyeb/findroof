@@ -20,10 +20,14 @@ import findroof.bo.BoContract;
 import findroof.bo.BoPossession;
 import findroof.bo.BoPossessionFilter;
 import findroof.controllers.FindRoofApiController;
+import findroof.model.Address;
 import findroof.model.Person;
 import findroof.model.Possession;
 import findroof.model.User;
+import findroof.repository.AddressRepository;
+import findroof.repository.PossessionRepository;
 import findroof.service.UserService;
+import findroof.utilities.Possession_Type;
 
 @Controller
 public class MainViewsController {
@@ -35,6 +39,12 @@ public class MainViewsController {
 	private UserService userService; 
 	
 	private Person currentPerson;
+	
+	@Autowired 
+	private PossessionRepository possessionRepository;
+	@Autowired 
+	private AddressRepository addressRepository;
+	
    	
 	@ModelAttribute
 	private void initCurrentPerson() {
@@ -104,6 +114,43 @@ public class MainViewsController {
 		modelAndView.addObject("boPossessionFilter", new BoPossessionFilter()); 
 		
 		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/addpossessions", method = RequestMethod.GET)
+    public ModelAndView viewAddPossessions() {
+		
+ 
+		ModelAndView model = new ModelAndView("addpossessions");
+		model.addObject("possession", new Possession());
+		return model;
+        
+    }
+	
+	@RequestMapping(value="/addpossessions",method = RequestMethod.POST)
+	public String save(@ModelAttribute("possession") @Valid Possession possession, BindingResult result) {
+
+		String stringType=possession.getstringType();
+		
+		if (stringType.equals("Flat")) {
+			possession.setType(Possession_Type.Flat);
+		}
+		else if (stringType.equals("House")) {
+			possession.setType(Possession_Type.House);
+		}
+		
+		possession.setHouseOwner(this.currentPerson);
+		
+		Address address = new Address();
+		address.setStreet(possession.getAddress().getStreet());
+		address.setZipCode(possession.getAddress().getZipCode());
+		address.setCity(possession.getAddress().getCity());
+		address.setCountry(possession.getAddress().getCountry());
+		
+		
+		addressRepository.save(address);
+		possessionRepository.save(possession);
+		
+		return "redirect:/posts";
 	}
 	
 }

@@ -7,7 +7,7 @@
         <header th:fragment="header">
             <nav class="navbar fixed-top navbar-expand navbar-dark bg-dark">
             	 <div class="navbar-header">
-      					<a class="navbar-brand" th:href="@{/login}">FindRoof</a>
+      					<a class="navbar-brand" th:href="@{/posts}">FindRoof</a>
    				</div>
             	<div class="collapse navbar-collapse nav navbar-nav" id="navbarNavAltMarkup">
                 <a class="nav-item nav-link" sec:authorize="isAuthenticated()" th:href="@{/posts}">Annonces</a>

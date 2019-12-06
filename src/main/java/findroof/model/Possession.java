@@ -26,7 +26,9 @@ public class Possession {
 	private String name;
 	
 	@Column(name="poss_type")
-	private Possession_Type type;	
+	private Possession_Type type;
+	
+	private String stringType;
 	
 	@Column(name="poss_maxperson")
 	private int maxPerson;
@@ -44,6 +46,7 @@ public class Possession {
     @JoinColumn(name = "addr_id")
 	private Address address;
     
+	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pers_owner_id")
     private Person houseOwner;
@@ -91,7 +94,15 @@ public class Possession {
 	public void setType(Possession_Type type) {
 		this.type = type;
 	}
+	
+	public String getstringType() {
+		return stringType;
+	}
 
+	public void setstringType(String stringType) {
+		this.stringType = stringType;
+	}
+	
 	public int getMaxPerson() {
 		return maxPerson;
 	}
