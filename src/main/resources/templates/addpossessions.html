@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/global-head::global-head">
+	<meta charset="utf-8">
+</head>
+
+
+<body class="text-center">
+
+	<header th:replace="fragments/header::header"></header>
+
+            <form th:action="@{/addpossessions}" th:object="${possession}" method="post" class="form-register mt-5">
+            
+            	<h1 class="h3 mb-3 font-weight-normal">Ajouter un bien</h1>
+				
+                <div class="form-group text-left" th:classappend="${#fields.hasErrors('name')}? 'has-error':''">
+                    <label for="name" class="control-label">Titre</label>
+                    <input id="name" class="form-control" th:field="*{name}"/>
+                </div>
+				 
+                <div class="form-group text-left">
+                    <label for="type" class="control-label">Type de bien</label>
+                    <select name="type"  th:field="*{stringType}" class="form-control">
+   						<option th:value="Flat" >Appartement</option>
+   						<option th:value="House" >Maisons</option>
+					</select>
+                </div>
+				
+                 <div class="form-group text-left">
+                    <label for="maxp" class="control-label">Nombre de personne</label>
+                    <select name="maxp"  th:field="*{maxPerson}" class="form-control">
+   						<option th:value="2" >2</option>
+   						<option th:value="4" >4</option>
+						<option th:value="6" >6</option>
+						<option th:value="8" >8</option>
+   						<option th:value="10" >10</option>
+						<option th:value="12" >12</option>
+					</select>
+                </div>
+				
+                <div class="form-group text-left"
+                     th:classappend="${#fields.hasErrors('price')}? 'has-error':''">
+                    <label for="price" class="control-label">Prix</label>
+                    <input id="price" class="form-control" th:field="*{price}"/>
+                </div>
+                
+                 <div class="form-group text-left"
+                     th:classappend="${#fields.hasErrors('surface')}? 'has-error':''">
+                    <label for="surface" class="control-label">Surface</label>
+                    <input id="surface" class="form-control" th:field="*{surface}"/>
+                </div>
+                
+				<div class="form-group text-left"
+                     th:classappend="${#fields.hasErrors('description')}? 'has-error':''">
+                    <label for="description" class="control-label">Description</label>
+                    <input id="description" class="form-control" th:field="*{description}"/>
+                </div>
+				
+				<div class="form-group text-left"
+                     th:classappend="${#fields.hasErrors('address.street')}? 'has-error':''">
+                    <label for="street" class="control-label">Numéro et Nom de Rue</label>
+                    <input id="street" class="form-control" th:field="*{address.street}"/>
+                </div>
+				
+				<div class="form-group text-left"
+                     th:classappend="${#fields.hasErrors('address.zipCode')}? 'has-error':''">
+                    <label for="zipCode" class="control-label">Code postale</label>
+                    <input id="zipCode" class="form-control" th:field="*{address.zipCode}"/>
+                </div>
+				
+				<div class="form-group text-left"
+                     th:classappend="${#fields.hasErrors('address.city')}? 'has-error':''">
+                    <label for="city" class="control-label">Ville</label>
+                    <input id="city" class="form-control" th:field="*{address.city}"/>
+                </div>
+                
+                <div class="form-group text-left"
+                     th:classappend="${#fields.hasErrors('address.country')}? 'has-error':''">
+                    <label for="country" class="control-label">Pays</label>
+                    <input id="country" class="form-control" th:field="*{address.country}"/>
+                </div>
+				
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Ajouter l'annonce</button>  
+                </div>
+					
+            </form>
+            
+
+</body>
+</html>
