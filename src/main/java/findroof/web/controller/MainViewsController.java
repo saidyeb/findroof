@@ -75,8 +75,8 @@ public class MainViewsController {
        
         ModelAndView modelAndView = new ModelAndView("possessions");
         modelAndView.addObject("person", this.currentPerson);
-        modelAndView.addObject("possessionHolding", boPossessionHolding);
-        modelAndView.addObject("possessionOwning", boPossessionOwning);
+        modelAndView.addObject("possessionsHolding", boPossessionHolding);
+        modelAndView.addObject("possessionsOwning", boPossessionOwning);
         
         return modelAndView;
     }
