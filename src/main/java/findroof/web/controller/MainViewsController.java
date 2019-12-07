@@ -10,10 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import findroof.bo.BoContract;
@@ -24,6 +22,7 @@ import findroof.model.Person;
 import findroof.model.Possession;
 import findroof.model.User;
 import findroof.service.UserService;
+import findroof.utilities.Role;
 
 @Controller
 public class MainViewsController {
@@ -71,12 +70,13 @@ public class MainViewsController {
 	@RequestMapping(value = "/possessions", method = RequestMethod.GET)
     public ModelAndView viewPossessions() {
 		
+        List<BoPossession> boPossessionHolding = findRoofApiController.getPersonPossessions(this.currentPerson.getId(), Role.Holder);
+        List<BoPossession> boPossessionOwning  = findRoofApiController.getPersonPossessions(this.currentPerson.getId(), Role.Owner);
+       
         ModelAndView modelAndView = new ModelAndView("possessions");
-        
-        BoPossession boPossession = findRoofApiController.getPersonPossessions(this.currentPerson.getId());
         modelAndView.addObject("person", this.currentPerson);
-        modelAndView.addObject("possessionHolding", boPossession.getPossessionHolding());
-        modelAndView.addObject("possessionOwning", boPossession.getPossessionOwning());
+        modelAndView.addObject("possessionHolding", boPossessionHolding);
+        modelAndView.addObject("possessionOwning", boPossessionOwning);
         
         return modelAndView;
     }

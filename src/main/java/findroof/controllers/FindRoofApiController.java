@@ -16,6 +16,7 @@ import findroof.model.Person;
 import findroof.model.Possession;
 import findroof.model.User;
 import findroof.service.*;
+import findroof.utilities.Role;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -59,11 +60,11 @@ public class FindRoofApiController {
 	
 	@RequestMapping(value="/getPersonPossessions", method = RequestMethod.GET)
 	@ResponseBody
-	public BoPossession getPersonPossessions(int personId) 
+	public List<BoPossession> getPersonPossessions(int personId, Role typePossession) 
 	{
 		try 
 		{
-			return possessionService.getBoPossessionsByPerson(personId);
+			return possessionService.getBoPossessionsByPerson(personId, typePossession);
 		} 
 		catch (Exception e) {
 			e.printStackTrace();

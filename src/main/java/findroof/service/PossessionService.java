@@ -1,5 +1,6 @@
 package findroof.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -33,25 +34,31 @@ public class PossessionService {
 	
 	public PossessionService() {}
 	
-	public BoPossession getBoPossessionsByPerson(int personId) throws Exception
+	public List<BoPossession> getBoPossessionsByPerson(int personId, Role typePossession) throws Exception
 	{
 		try
 		{
-			BoPossession boPossession = new BoPossession();			
+			List<BoPossession> boPossessions = new ArrayList<BoPossession>();			
 			Person person = personRepo.findById(personId).get(); 
 			
-			if(person.getRole() == Role.Holder || person.getRole() == Role.OwnerHolder)
+			if(typePossession == Role.Holder && (person.getRole() == Role.Holder || person.getRole() == Role.OwnerHolder) ) 
 			{
 				List<Possession> possessionHolder = possessionRepo.findByHouseHolders(person);
-				boPossession.getPossessionHolding().addAll(possessionHolder);
+				for(Possession possession : possessionHolder)
+				{
+					boPossessions.add(new BoPossession(possession));
+				}
 			}
-			if (person.getRole() == Role.Owner || person.getRole() == Role.OwnerHolder)
+			else if (typePossession == Role.Owner && (person.getRole() == Role.Owner || person.getRole() == Role.OwnerHolder) )
 			{
 				List<Possession> possessionOwners = possessionRepo.findByHouseOwner(person);
-			    boPossession.getPossessionOwning().addAll(possessionOwners);
+				for(Possession possession : possessionOwners)
+				{
+					boPossessions.add(new BoPossession(possession));
+				}			
 			}
 			
-			return boPossession;
+			return boPossessions;
 		}
 		catch(Exception exception)
 		{
