@@ -21,9 +21,8 @@
 				 
                 <div class="form-group text-left">
                     <label for="type" class="control-label">Type de bien</label>
-                    <select name="type"  th:field="*{stringType}" class="form-control">
-   						<option th:value="Flat" >Appartement</option>
-   						<option th:value="House" >Maisons</option>
+                    <select name="type" th:field="*{type}" class="form-control"> 		
+   						<option th:each="tp : ${T(findroof.utilities.Possession_Type).values()}" th:value="${tp.name()}" th:text="${tp}"></option>				
 					</select>
                 </div>
 				
