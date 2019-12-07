@@ -129,6 +129,21 @@ public class FindRoofApiController {
 	}
 	
 	
+	@RequestMapping(value="/addpossession", method = RequestMethod.GET)
+	@ResponseBody
+	public Possession addPossession(Possession possession, Person houseOwner) 
+	{
+		try 
+		{
+			return possessionService.addPossession(possession, houseOwner);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}	
+	}
+	
+	
 	
 	
 }

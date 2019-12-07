@@ -62,13 +62,13 @@ public class PossessionService {
 	}
 	
 	
-	public Possession addPossession(Possession possession, Person person) throws Exception
+	public Possession addPossession(Possession possession, Person houseOwner) throws Exception
 	{
 		try
 		{
-			if(person != null && (person.getRole() == Role.Owner || person.getRole() == Role.OwnerHolder))
+			if(houseOwner != null && (houseOwner.getRole() == Role.Owner || houseOwner.getRole() == Role.OwnerHolder))
 			{
-				possession.setHouseOwner(person);
+				possession.setHouseOwner(houseOwner);
 				return possessionRepo.save(possession);
 			}
 			else

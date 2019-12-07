@@ -28,8 +28,6 @@ public class Possession {
 	@Column(name="poss_type")
 	private Possession_Type type;
 	
-	private String stringType;
-	
 	@Column(name="poss_maxperson")
 	private int maxPerson;
 	
@@ -93,14 +91,6 @@ public class Possession {
 
 	public void setType(Possession_Type type) {
 		this.type = type;
-	}
-	
-	public String getstringType() {
-		return stringType;
-	}
-
-	public void setstringType(String stringType) {
-		this.stringType = stringType;
 	}
 	
 	public int getMaxPerson() {
