@@ -83,6 +83,7 @@ public class MainViewsController {
         ModelAndView modelAndView = new ModelAndView("possessions");
         
         BoPossession boPossession = findRoofApiController.getPersonPossessions(this.currentPerson.getId());
+        modelAndView.addObject("person", this.currentPerson);
         modelAndView.addObject("possessionHolding", boPossession.getPossessionHolding());
         modelAndView.addObject("possessionOwning", boPossession.getPossessionOwning());
         

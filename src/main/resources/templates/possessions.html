@@ -15,7 +15,7 @@
 		<div class="row" th:if="${possessionHolding.isEmpty()}">
 			<h4>Vous n'avez pas encore des réservations</h4>
 		</div>
-		<div class="row">
+		<div class="row" th:if="${#strings.equalsIgnoreCase(person.role,'Propritaire') or #strings.equalsIgnoreCase(person.role,'Propritaire/Locataire')}">
 			<form th:action="@{/addpossessions}">
             	<input class="btn btn-primary navbar-btn" type="submit" value="Ajouter un bien">
         	</form>
