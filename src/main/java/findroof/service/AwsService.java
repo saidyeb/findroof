@@ -42,24 +42,28 @@ public class AwsService {
 		{
 			double priceDollar = 0.0;
 			
-			String paramsJson = "{ \"price\" :"+ priceEuro +"}";
-			InvokeRequest req = new InvokeRequest()
-			                           .withFunctionName("ConvertPricePossession")
-			                           .withPayload(paramsJson);
-			
-			InvokeResult result = client.invoke(req);
-			if (result.getStatusCode() == 200)
+			if(priceDollar > 0)
 			{
-				String resultJson = new String( result.getPayload().array(), "UTF-8" );
-				priceDollar = Jackson.fromJsonString(resultJson, Double.class);
+				String paramsJson = "{ \"price\" :"+ priceEuro +"}";
+				InvokeRequest req = new InvokeRequest()
+				                           .withFunctionName("ConvertPricePossession")
+				                           .withPayload(paramsJson);
+				
+				InvokeResult result = client.invoke(req);
+				if (result.getStatusCode() == 200)
+				{
+					String resultJson = new String( result.getPayload().array(), "UTF-8" );
+					priceDollar = Jackson.fromJsonString(resultJson, Double.class);
+				}				
 			}
+			
 			return priceDollar;	
 		}
 		catch(Exception exception)
 		{
 			String msg = "Erreur lors de la récupération du prix en Dollar depuis AWS function lambda avec pour paramètres '"+priceEuro+"'";
 			_logger.error(msg, exception);
-			throw new Exception(msg, exception);
+			return 0.0;
 		}
 	}
 }
