@@ -58,9 +58,9 @@ public class MainViewsController {
 		
 		ModelAndView modelAndView = new ModelAndView("posts");
 		
-		List<Possession> possessions = findRoofApiController.getAllPosts(this.currentPerson);
+		List<BoPossession> possessions = findRoofApiController.getAllPosts(this.currentPerson);
 		
-		modelAndView.addObject("possessions", possessions);
+		modelAndView.addObject("boPossessions", possessions);
 		modelAndView.addObject("person", this.currentPerson);
 		modelAndView.addObject("boPossessionFilter", new BoPossessionFilter()); 
 		

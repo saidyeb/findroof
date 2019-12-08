@@ -30,9 +30,13 @@ public class PossessionService {
 	@Autowired 
 	private PersonRepository personRepo;
 	
+	@Autowired
+	private AwsService awsService;
+	
 	private Logger _logger = LoggerFactory.getLogger(this.getClass());
 	
 	public PossessionService() {}
+	
 	
 	public List<BoPossession> getBoPossessionsByPerson(int personId, Role typePossession) throws Exception
 	{
@@ -43,18 +47,20 @@ public class PossessionService {
 			
 			if(typePossession == Role.Holder && (person.getRole() == Role.Holder || person.getRole() == Role.OwnerHolder) ) 
 			{
-				List<Possession> possessionHolder = possessionRepo.findByHouseHolders(person);
-				for(Possession possession : possessionHolder)
+				List<Possession> possessionsHolder = possessionRepo.findByHouseHolders(person);
+				for(Possession possession : possessionsHolder)
 				{
-					boPossessions.add(new BoPossession(possession));
+					double priceDollar = awsService.getPriceDollar(possession.getPrice());
+					boPossessions.add(new BoPossession(possession, priceDollar));
 				}
 			}
 			else if (typePossession == Role.Owner && (person.getRole() == Role.Owner || person.getRole() == Role.OwnerHolder) )
 			{
-				List<Possession> possessionOwners = possessionRepo.findByHouseOwner(person);
-				for(Possession possession : possessionOwners)
+				List<Possession> possessionsOwner = possessionRepo.findByHouseOwner(person);
+				for(Possession possession : possessionsOwner)
 				{
-					boPossessions.add(new BoPossession(possession));
+					double priceDollar = awsService.getPriceDollar(possession.getPrice());
+					boPossessions.add(new BoPossession(possession, priceDollar));				
 				}			
 			}
 			
@@ -118,11 +124,12 @@ public class PossessionService {
 		}
 	}
 
-	public List<Possession> getAllPosts(Person person) throws Exception
+	public List<BoPossession> getAllPosts(Person person) throws Exception
 	{
 		try
 		{
 			List<Possession> allPossessions= (List<Possession>) possessionRepo.findAll();
+			List<BoPossession> boPossessions = new ArrayList<>();
 			List<Contract> holderContracts = contractRepo.findByHouseHolder(person);
 			Iterable<Contract> ownerContracts = contractRepo.findByHouseHolder(person);
 			
@@ -137,8 +144,14 @@ public class PossessionService {
 			{
 				allPossessions.removeIf(possession -> possession.getId() == ownerContract.getPossession().getId());
 			}
+			
+			for(Possession possession : allPossessions)
+			{
+				double priceDollar = awsService.getPriceDollar(possession.getPrice());
+				boPossessions.add(new BoPossession(possession, priceDollar));
+			}
 		
-			return allPossessions; 
+			return boPossessions; 
 		}
 		catch(Exception exception)
 		{

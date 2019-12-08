@@ -47,7 +47,7 @@ public class FindRoofApiController {
 	
 	@RequestMapping(value="/getallposts", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Possession> getAllPosts(Person person) 
+	public List<BoPossession> getAllPosts(Person person) 
 	{
 		try {
 			return possessionService.getAllPosts(person);

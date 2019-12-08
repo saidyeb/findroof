@@ -45,6 +45,10 @@
 									<label class="mb-0" th:text="${possessionOwning.possession.surface} + 'm²'"></label>
 								</p>
 								<p class="mb-0">
+									<b>Prix : </b>
+									<label class="mb-0" th:text="${possessionOwning.possession.price} + ' euros / ' + ${possessionOwning.priceDollar} + ' dollars' "></label>
+								</p>
+								<p class="mb-0">
 									<b>Nombre max locataire : </b>
 									<label class="mb-0" th:text="${possessionOwning.possession.maxPerson}"></label>
 								</p>
@@ -85,6 +89,10 @@
 									<b>Surface : </b>
 									<label class="mb-0" th:text="${possessionHolding.possession.surface} + 'm²'"></label>
 								</p>
+								<p class="mb-0">
+									<b>Prix : </b>
+									<label class="mb-0" th:text="${possessionHolding.possession.price} + ' euros / ' + ${possessionHolding.priceDollar} + ' dollars' "></label>
+								</p>								
 								<p class="mb-0">
 									<b>Propriétaire : </b>
 									<label class="mb-0" th:text="${possessionHolding.possession.houseOwner.firstName} + ${possessionHolding.possession.houseOwner.lastName}"></label>
