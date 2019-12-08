@@ -17,7 +17,7 @@
 		</div>
 		<div class="row" th:if="${#strings.equalsIgnoreCase(person.role,'Propritaire') or #strings.equalsIgnoreCase(person.role,'Propritaire/Locataire')}">
 			<form class="col" th:action="@{/addpossessions}">
-            	<input class="btn btn-primary navbar-btn float-right" type="submit" value="Ajouter un bien">
+            	<input class="btn btn-primary navbar-btn float-right" type="submit" value="Ajouter une annonce">
         	</form>
 		</div>
 
@@ -44,6 +44,10 @@
 									<b>Surface : </b>
 									<label class="mb-0" th:text="${possessionOwning.possession.surface} + 'm²'"></label>
 								</p>
+								<p class="mb-0">
+									<b>Prix : </b>
+									<label class="mb-0" th:text="${possessionOwning.possession.price} + ' euros'"></label>
+								</p>							
 								<p class="mb-0">
 									<b>Nombre max locataire : </b>
 									<label class="mb-0" th:text="${possessionOwning.possession.maxPerson}"></label>
@@ -85,6 +89,10 @@
 									<b>Surface : </b>
 									<label class="mb-0" th:text="${possessionHolding.possession.surface} + 'm²'"></label>
 								</p>
+								<p class="mb-0">
+									<b>Prix : </b>
+									<label class="mb-0" th:text="${possessionHolding.possession.price} + ' euros' "></label>
+								</p>								
 								<p class="mb-0">
 									<b>Propriétaire : </b>
 									<label class="mb-0" th:text="${possessionHolding.possession.houseOwner.firstName} + ${possessionHolding.possession.houseOwner.lastName}"></label>

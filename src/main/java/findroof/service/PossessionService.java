@@ -124,10 +124,15 @@ public class PossessionService {
 		{
 			List<Possession> allPossessions= (List<Possession>) possessionRepo.findAll();
 			List<Contract> holderContracts = contractRepo.findByHouseHolder(person);
-			Iterable<Contract> ownerContracts = contractRepo.findByHouseHolder(person);
+			Iterable<Contract> ownerContracts = contractRepo.findByHouseOwner(person);
 			
+			// remove if the person has already the possession 
 			allPossessions.removeIf(possession -> possession.getHouseHolders().contains(person));
 			
+			// remove if the person own the possession 
+			allPossessions.removeIf(possession -> possession.getHouseOwner().getId() == person.getId());
+			
+			// remove if the person has already <b>reserve</b> the possession 
 			for(Contract holderContract : holderContracts)
 			{
 				allPossessions.removeIf(possession -> possession.getId() == holderContract.getPossession().getId());
