@@ -1,14 +1,10 @@
 package findroof.service;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import findroof.bo.BoPossession;
-import findroof.model.Contract;
 import findroof.model.Person;
 import findroof.model.User;
 import findroof.repository.PersonRepository;
@@ -41,6 +37,7 @@ public class PersonService {
 	{ 
 		try
 		{
+			person.setIsBlacklisted(false);
 			return personRepo.save(person); 
 		}
 		catch(Exception exception)

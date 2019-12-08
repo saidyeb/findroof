@@ -31,22 +31,27 @@ public class Person {
 	@Column(name="pers_role")
 	private Role role;
 	
+	@Column(name="pers_isblacklist")
+	private Boolean isBlacklisted;
+	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_pers_id")
 	private User user;
 
 	public Person() {
 		super();
+		this.isBlacklisted = false;
 	}
 
 	
-	public Person(String firstName, String lastName, int age, Role role, User user) {
+	public Person(String firstName, String lastName, int age, Role role, User user, Boolean isBlacklisted) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
 		this.role = role;
 		this.user = user;
+		this.isBlacklisted = isBlacklisted;
 	}
 
 	public int getId() {
@@ -97,11 +102,18 @@ public class Person {
 		this.user = user;
 	}
 
+	public Boolean getIsBlacklisted() {
+		return isBlacklisted;
+	}
+
+	public void setIsBlacklisted(Boolean isBacklisted) {
+		this.isBlacklisted = isBacklisted;
+	}
 
 	@Override
 	public String toString() {
 		return "Person [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", role="
-				+ role + ", person=" + user + "]";
+				+ role + ", isBacklisted=" + isBlacklisted + ", user=" + user + "]";
 	}
 
 }

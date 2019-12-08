@@ -123,7 +123,7 @@
 							</p>
 					    </div>
 					    
-					    <div class="mt-3 text-center">						    
+					    <div class="mt-3 text-center" th:if="${person.isBlacklisted == false}">						    
 						    <button type="button" class="btn btn-outline-primary mr-2" th:id="'btn-possession-'+${boPossession.possession.id}+'-res'" th:data-holder="${person.id}" th:data-id="${boPossession.possession.id}" >Resérver</button>
 					    </div>
 					    
