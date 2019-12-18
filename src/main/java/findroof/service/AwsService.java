@@ -42,7 +42,7 @@ public class AwsService {
 		{
 			double priceDollar = 0.0;
 			
-			if(priceDollar > 0)
+			if(priceEuro > 0)
 			{
 				String paramsJson = "{ \"price\" :"+ priceEuro +"}";
 				InvokeRequest req = new InvokeRequest()
