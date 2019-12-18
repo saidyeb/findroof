@@ -6,6 +6,7 @@ TP – Intergiciel : FindRoof
 
 En plus de ce qui a été réalisé sur la partie PC. Sur cette partie on a ajouté : 
 	* [AWS lambda] - appel aux fonctions
+	* [AWS S3]     - container
 	* [AWS RDS]    - hébergement de la BD
 
 ### Prerequisites
@@ -35,7 +36,7 @@ Un test unitaire Junit a été implémenté pour pouvoir tester la fonction ```C
 
 SGBD MySQL est utilisé pour le type de la BD RDS. 
 
-Toute la DB findroof en local a été remontée doréavant une instance BD RDS renomé ```findroofinstance```. L'Accès à l'instance BD est public. 
+Toute la DB findroof en local a été remontée doréavant sur une instance BD RDS renomée ```findroofinstance```. L'Accès à l'instance BD est public. 
 
 Le fichier "application.propereties" a été adapté pour pouvoir se connecter à la BD RDS. 
 
